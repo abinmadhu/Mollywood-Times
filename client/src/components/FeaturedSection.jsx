@@ -4,10 +4,14 @@ import BlurCircle from "./BlurCircle"
 import { malayalamMovies } from "../constants"
 import MovieCard from "./MovieCard"
 import { useNavigate } from "react-router-dom"
+import { useAppContext } from "../context/AppContext"
 
 
 const FeaturedSection = () => {
     const navigate = useNavigate();
+
+    const {shows} = useAppContext();
+    
   return (
     <div className={`${styles.paddingX} flex flex-col items-center w-full ${styles.paddingY} overflow-hidden`}>
         <div className="flex justify-between w-full relative">
@@ -17,7 +21,7 @@ const FeaturedSection = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-8 w-full px-8 md:px-10">
             {
-                malayalamMovies.slice(0,4).map((movie, index) => (
+                shows.slice(0,4).map((movie, index) => (
                     <MovieCard key={index} movie={movie} />
                 ))
             }

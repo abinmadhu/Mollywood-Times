@@ -4,12 +4,15 @@ import { navLinks } from "../constants";
 import { MenuIcon, Search, TicketPlus, X } from "lucide-react";
 import { useState } from "react";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
+import { useAppContext } from "../context/AppContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {user} = useUser();
   const { openSignIn } = useClerk();
   const navigate = useNavigate();
+
+  const {favoriteMovies} = useAppContext()
   return (
     <nav
       className={`fixed top-0 left-0 flex justify-between items-center w-full ${styles.paddingX} py-5 z-100 bg-transparent`}
@@ -33,6 +36,7 @@ const Navbar = () => {
           onClick={() => setIsOpen(!isOpen)}
         />
         {navLinks.map((link) => (
+          
           <Link
             key={link.id}
             to={link.path}
@@ -44,6 +48,7 @@ const Navbar = () => {
           >
             {link.name}
           </Link>
+
         ))}
       </div>
       <div className="flex items-center gap-4">
@@ -63,7 +68,7 @@ const Navbar = () => {
               <UserButton.Action
                 label="My Bookings"
                 labelIcon={<TicketPlus />}
-                onClick={() => navigate("/bookings")}
+                onClick={() => navigate("/my-bookings")}
                 width={15}
               />
             </UserButton.MenuItems>

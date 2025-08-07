@@ -3,15 +3,28 @@ import { dummyBookingData } from "../../assets/assets";
 import Loading from "../../components/Loading";
 import Title from "../../components/admin/Title";
 import { formatDateString } from "../../lib/dateFormat";
+import { useAppContext } from "../../context/AppContext";
 
 const ListBookings = () => {
   const currency = import.meta.env.VITE_CURRENCY_SIGN;
+
+  const { axios, getToken, user } = useAppContext();
 
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getAllBoolings = async () => {
-    setBookings(dummyBookingData);
+    try {
+      const { data } = await axios.get("/api/admin/all-bookings", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+      setBookings(data.bookings);
+    } catch (error) {
+      console.log(error);
+    }
+
     setLoading(false);
   };
 
@@ -40,13 +53,16 @@ const ListBookings = () => {
               >
                 <td className="p-2 min-w-45 pl-5">{item.user.name}</td>
                 <td className="p-2">{item.show.movie.title}</td>
-                <td className="p-2">{formatDateString(item.show.showDateTime)}</td>
                 <td className="p-2">
-                  {Object.keys(item.bookedSeats).map(seat => item.bookedSeats[seat]).join(",")}
+                  {formatDateString(item.show.showDateTime)}
                 </td>
                 <td className="p-2">
-                  {currency}{" "}
-                  {item.amount}
+                  {Object.keys(item.bookedSeats)
+                    .map((seat) => item.bookedSeats[seat])
+                    .join(",")}
+                </td>
+                <td className="p-2">
+                  {currency} {item.amount}
                 </td>
               </tr>
             ))}

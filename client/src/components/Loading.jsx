@@ -1,11 +1,23 @@
-import React from 'react'
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Loading = () => {
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-xl text-center font-bold">Loading...</h1>
-    </div>
-  )
-}
 
-export default Loading
+  const {nextUrl} = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(nextUrl){
+      setTimeout(() => {
+        navigate('/'+nextUrl);
+      },5000)
+    }
+  },[])
+  return (
+    <div className="flex items-center justify-center h-full w-full">
+      <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#CCFF00] border-t-transparent" />
+    </div>
+  );
+};
+
+export default Loading;
