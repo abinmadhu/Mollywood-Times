@@ -17,11 +17,16 @@ const port = process.env.PORT || 3000;
 
 await connectDB();
 
-// stripe webhooks route
+// Stripe requires the raw body to verify webhook signatures, so we use express.raw here.
+// Do not use express.json() for this route, as it would break Stripe signature verification.
 app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhooks);
+// Handle CORS preflight for Stripe webhook
+app.options('/api/stripe', cors());
+
+
+
 
 app.use(express.json()); 
-app.use(cors());
 app.use(clerkMiddleware());
 
 app.get("/", (req, res) => res.send("Server is Live!"));

@@ -6,6 +6,7 @@ import { formatDateString } from "../lib/dateFormat";
 import BlurCircle from "../components/BlurCircle";
 import { useAppContext } from "../context/AppContext.jsx";
 import Loading from "../components/Loading.jsx";
+import { Link } from "react-router-dom";
 
 
 const MyBookings = () => {
@@ -77,9 +78,9 @@ const MyBookings = () => {
                   {currency} {item.show.showPrice}
                 </h1>
                 {!item.isPaid && (
-                  <button className="bg-secondary text-primary px-3 py-1  text-xs rounded font-semibold cursor-pointer">
+                  <Link to={item.paymentLink} className="bg-secondary text-primary px-3 py-1  text-xs rounded font-semibold cursor-pointer">
                     Pay Now
-                  </button>
+                  </Link>
                 )}
               </div>
               <p className="text-sm text-g mb-1">

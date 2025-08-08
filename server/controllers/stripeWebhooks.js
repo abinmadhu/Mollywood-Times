@@ -30,9 +30,11 @@ export const stripeWebhooks = async (request, response) => {
           });
           const session = sessionlist.data[0];
           const { bookingId } = session.metadata;
+          console.log(bookingId);
+          
 
           await Booking.findByIdAndUpdate(bookingId, {
-            paymentStatus: "paid",
+            isPaid: true,
             paymentLink: "",
           });
         }
