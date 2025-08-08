@@ -4,7 +4,7 @@ import Booking from "../models/Booking.js";
 export const stripeWebhooks = async (request, response) => {
   const sig = request.headers["stripe-signature"];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  const stripeInstance = new stripe(webhookSecret);
+  const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
 
   let event;
 
